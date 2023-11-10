@@ -10,7 +10,7 @@ namespace Monogame_time_and_sound
         private SpriteBatch spriteBatch;
         Texture2D bombTexture;
         Rectangle bombRect;
-        SpriteFont timeFont
+        SpriteFont timeFont;
 
         public Game1()
         {
