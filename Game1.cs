@@ -11,6 +11,7 @@ namespace Monogame_time_and_sound
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         Texture2D bombTexture;
+        Texture2D explosionTexture;
         Rectangle bombRect;
         SpriteFont timeFont;
         float seconds;
@@ -42,6 +43,7 @@ namespace Monogame_time_and_sound
             bombTexture = Content.Load<Texture2D>("bomb");
             timeFont = Content.Load<SpriteFont>("BombTimer");
             explode = Content.Load<SoundEffect>("explosion");
+            explosionTexture = Content.Load<Texture2D>("Nuke");
 
         }
 
@@ -49,10 +51,10 @@ namespace Monogame_time_and_sound
         {
             mouseState = Mouse.GetState();
 
-            //if (mouseState.LeftButton == ButtonState.Pressed)
-            //{
-            //    startTime = (float)gameTime.TotalGameTime.TotalSeconds;
-            //}
+            if (mouseState.LeftButton == ButtonState.Pressed && !exploded)
+            {
+                startTime = (float)gameTime.TotalGameTime.TotalSeconds;
+            }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -62,8 +64,12 @@ namespace Monogame_time_and_sound
             if (Math.Round(seconds) == 15 && !exploded) 
             {
                 explode.Play();
-                //startTime = (float)gameTime.TotalGameTime.TotalSeconds;
                 exploded = true;
+            }
+
+            if (exploded && Math.Round(seconds) == 25)
+            {
+                Exit();
             }
 
             base.Update(gameTime);
@@ -81,7 +87,7 @@ namespace Monogame_time_and_sound
             }
             else if (seconds >= 15)
             {
-                spriteBatch.DrawString(timeFont, "Boom", new Vector2(246, 210), Color.Black);
+                spriteBatch.Draw(explosionTexture, new Rectangle(0, 0, 800, 500), Color.White);
             }
 
             spriteBatch.End();
