@@ -66,6 +66,10 @@ namespace Monogame_time_and_sound
                 explode.Play();
                 exploded = true;
             }
+            else if (Math.Round(seconds, 3) == 12 || Math.Round(seconds, 3) == 13 || Math.Round(seconds, 3) == 14)
+            {
+                Console.Beep();
+            }
 
             if (exploded && Math.Round(seconds) == 25)
             {
